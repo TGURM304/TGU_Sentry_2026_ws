@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot name="sentry_lidar_minimal">
+
+  <!-- ========== base_link（车体参考） ========== -->
+  <link name="base_link"/>
+
+  <!-- ========== 大 YAW（旋转中心） ========== -->
+  <link name="yaw_link"/>
+
+  <joint name="base_to_yaw" type="fixed">
+    <!-- yaw 的转动由你自己的 TF / 控制器发布 -->
+    <parent link="base_link"/>
+    <child link="yaw_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ========== 雷达（FAST_LIO 的刚体参考） ========== -->
+  <link name="lidar_link"/>
+
+  <joint name="yaw_to_lidar" type="fixed">
+    <parent link="yaw_link"/>
+    <child link="lidar_link"/>
+
+    <origin xyz="0.11 0 0.30" rpy="0 0 0"/>
+  </joint>
+
+</robot>

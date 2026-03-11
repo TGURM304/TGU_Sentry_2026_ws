@@ -1,0 +1,90 @@
+/**:
+  ros__parameters:
+        common:
+            odom_frame_id: "odom"                   # 里程计坐标系ID
+            sensor_frame_id: "imu_link"             # IMU传感器坐标系ID
+            base_frame_id: "base_link"               # 机器人基座坐标系ID
+            send_odom_base_tf: true                  # 是否发布odom和base_link之间的TF变换
+            lid_topic:  "/livox/lidar"                # 激光雷达点云数据话题
+            imu_topic:  "/imu/data"                    # IMU数据话题
+            gnss_topic:  /gps/fix                      # GPS定位数据话题（这里用/gps/fix）
+            time_sync_en: false                       # 是否开启时间同步（仅当无法外部同步时开启）
+
+        preprocess:
+            lidar_type: 1                            # 激光雷达类型，1=Livox系列，2=Velodyne，3=Ouster
+            scan_line: 16                           # 激光雷达扫描线数
+            blind: 0.8                             # 盲区范围，单位米，距离小于该值的点云被忽略
+
+        mapping:
+            acc_cov: 0.1                            # 加速度计协方差，用于滤波
+            gyr_cov: 0.1                            # 陀螺仪协方差，用于滤波
+            b_acc_cov: 0.0001                       # 加速度计偏置协方差
+            b_gyr_cov: 0.0001                       # 陀螺仪偏置协方差
+            fov_degree: 360.0                       # 激光雷达视场角，单位度
+            det_range: 57.0                         # 激光雷达最大探测距离，单位米
+            extrinsic_est_en: false                 # 是否启用IMU-LiDAR外参在线估计（false表示关闭）
+            extrinsic_T: [ -0.011, -0.02329, 0.04412 ]  # IMU到激光雷达的平移外参，单位米
+            extrinsic_R: [ 1.0, 0.0, 0.0,              # IMU到激光雷达的旋转外参，单位矩阵表示无旋转
+                            0.0, 1.0, 0.0,
+                            0.0, 0.0, 1.0]
+
+        publish:
+            path_en: true                          # 是否发布路径信息
+            effect_map_en: true                    # 是否发布效果地图（增强地图表现）
+            map_en: true                           # 是否发布地图点云
+            visulize_IkdtreeMap: true              # 是否可视化Ikd树地图
+            scan_publish_en: true                  # 是否发布激光雷达点云扫描数据
+            dense_publish_en: true                 # 是否发布密集点云（全局坐标系）
+            scan_bodyframe_pub_en: true            # 是否发布IMU机体系的点云数据
+
+        pcd_save:
+            pcd_save_en: true                      # 是否保存PCD点云文件
+            interval: -1                          # 每个PCD文件包含多少帧，-1表示全部保存到一个文件（内存占用大）
+
+        # 体素滤波参数
+        odometrySurfLeafSize: 0.2                 # 里程计使用的表面点滤波叶子尺寸（米），默认室外0.4，室内0.2
+        mappingCornerLeafSize: 0.1                 # 地图构建中角点滤波叶子尺寸（米），室外0.2，室内0.1
+        mappingSurfLeafSize: 0.2                   # 地图构建中表面点滤波叶子尺寸（米），室外0.4，室内0.2
+
+        # 机器人运动约束（针对2D机器人）
+        z_tollerance: 1000.0                       # Z轴容忍范围，单位米
+        rotation_tollerance: 1000.0                 # 旋转容忍范围，单位弧度
+
+        # CPU参数
+        numberOfCores: 4                           # 用于映射优化的CPU核心数
+        mappingProcessInterval: 0.15               # 映射处理间隔，单位秒（控制映射频率）
+
+        # 周围地图参数
+        surroundingkeyframeAddingDistThreshold: 1.0   # 关键帧添加的距离阈值，单位米
+        surroundingkeyframeAddingAngleThreshold: 0.2  # 关键帧添加的角度阈值，单位弧度
+        surroundingKeyframeDensity: 2.0                # 周围关键帧密度（米），未使用
+        surroundingKeyframeSearchRadius: 50.0          # 搜索半径，单位米，未使用
+
+        # 回环检测相关
+        loopClosureEnableFlag: true                 # 是否启用回环检测
+        loopClosureFrequency: 4.0                   # 回环检测频率，单位Hz
+        surroundingKeyframeSize: 50                 # 子地图大小（关键帧数）
+        historyKeyframeSearchRadius: 3.0            # 历史关键帧搜索半径，单位米
+        historyKeyframeSearchTimeDiff: 30.0         # 历史关键帧时间差阈值，单位秒
+        historyKeyframeSearchNum: 20                 # 用于回环的历史关键帧数量
+        historyKeyframeFitnessScore: 0.3             # ICP匹配阈值，越小匹配越严格
+
+        # GPS设置
+        useImuHeadingInitialization: false         # 是否用IMU初始化航向（使用GPS时设为true）
+        useGpsElevation: false                      # 是否使用GPS高度，GPS高度不准时设为false
+        gpsCovThreshold: 2.0                        # GPS协方差阈值，单位平方米
+        poseCovThreshold: 0.0                       # 位姿协方差阈值，单位平方米（来自isam2）
+
+        # 可视化参数
+        globalMapVisualizationSearchRadius: 100.0  # 全局地图可视化搜索半径，单位米
+        globalMapVisualizationPoseDensity: 10.0    # 全局地图关键帧密度，单位米
+        globalMapVisualizationLeafSize: 1.0         # 全局地图点云密度，单位米
+
+        # ikdtree地图相关
+        visulize_IkdtreeMap: true                    # 是否可视化ikdtree地图
+        recontructKdTree: true                        # 是否重构KdTree
+
+        # 导出设置
+        runtime_pos_log_enable: false                 # 是否启用运行时位置日志
+        savePCD: true                                # 是否保存点云数据（PCD）
+        savePCDDirectory: "PCD"                       # 点云保存目录（位于家目录下）

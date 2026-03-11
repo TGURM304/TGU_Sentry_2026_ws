@@ -1,0 +1,56 @@
+/**:
+    ros__parameters:
+        locate_in_prior_map: false                 # 是否在已有先验地图中定位（false表示不使用先验地图）
+        feature_extract_enable: false              # 是否启用特征提取
+        point_filter_num: 3                        # 点云滤波的点数阈值
+        max_iteration: 3                           # 最大迭代次数（用于算法迭代）
+        filter_size_surf: 0.1                      # 表面滤波器尺寸，单位米
+        filter_size_map: 0.1                       # 地图滤波器尺寸，单位米
+        cube_side_length: 1000.0                   # 体素滤波的立方体边长，单位米
+        runtime_pos_log_enable: false              # 是否启用运行时位置日志记录
+        map_file_path: "./test.pcd"                # 地图文件保存路径
+
+        common:
+            odom_frame_id: "odom"                  # 里程计坐标系ID
+            sensor_frame_id: "lidar_link"            # 传感器（IMU）坐标系ID
+            base_frame_id: "base_link"             # 机器人基座坐标系ID
+            send_odom_base_tf: true                 # 是否发布odom与base_link之间的TF变换
+            lid_topic:  "/livox/lidar"              # 激光雷达点云话题名称
+            imu_topic:  "/imu/data"                  # IMU数据话题名称
+            time_sync_en: false                      # 是否开启时间同步（仅当外部时间同步不可行时开启）
+            time_offset_lidar_to_imu: 0.0           # 激光雷达与IMU时间偏移，单位秒（由其他标定算法获得）
+
+        preprocess:
+            lidar_type: 1                           # 激光雷达类型，1=Livox系列，2=Velodyne，3=Ouster，4=其他点云输入
+            scan_line:  16                         # 激光雷达扫描线数
+            blind: 0.5                             # 盲区距离阈值，单位米
+            timestamp_unit: 3                      # 时间戳单位（具体单位需参考说明）
+            scan_rate: 10                          # 激光雷达扫描频率，单位Hz
+
+        mapping:
+            acc_cov: 0.3                           # 加速度计协方差，用于滤波
+            gyr_cov: 0.2                           # 陀螺仪协方差，用于滤波
+            b_acc_cov: 0.0001                      # 加速度计偏置协方差
+            b_gyr_cov: 0.0001                      # 陀螺仪偏置协方差
+            fov_degree:    60.0                   # 激光雷达视场角，单位度
+            det_range:     57.0                    # 激光雷达最大检测距离，单位米
+            extrinsic_est_en:  false               # 是否启用IMU与激光雷达外参在线估计（false表示关闭）
+            extrinsic_T: [ 0., 0., 0. ]  # IMU到激光雷达的平移外参，单位米
+            # extrinsic_R: [ 1., 0., 0.,                 # IMU到激光雷达的旋转外参，3x3单位矩阵表示无旋转
+            #                 0., 1., 0.,
+            #                 0., 0., 1.]
+            extrinsic_R: [ 0.7340,   0.0056,   0.6791,
+                           0.0000,   0.99997, -0.0082,
+                           -0.6791,   0.0060,   0.7340]
+
+        publish:
+            path_en: true                         # 是否发布路径信息（true启用）
+            effect_map_en: true                   # 是否发布效果地图（true启用）
+            map_en: true                         # 是否发布地图点云（true启用）
+            scan_publish_en:  true               # 是否发布激光雷达扫描点云
+            dense_publish_en: true               # 是否发布密集点云（全局坐标系下）
+            scan_bodyframe_pub_en: true          # 是否发布IMU机体系下的点云扫描数据
+
+        pcd_save:
+            pcd_save_en: true                    # 是否启用PCD点云文件保存
+            interval: -1                        # 每个PCD文件保存多少帧，-1表示所有帧保存到一个文件（可能导致内存占用过高）

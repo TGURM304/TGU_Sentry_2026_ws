@@ -1,0 +1,27 @@
+ground_segmentation:
+  ros__parameters:
+    n_threads: 32                # 使用的线程数
+
+    r_min: 0.2                  # 点云距离的最小范围（米）
+    r_max: 50.0                 # 点云距离的最大范围（米）
+    n_bins: 120                 # 径向距离划分的区间数量
+    n_segments: 360             # 径向角度划分的段数
+
+    max_dist_to_line: 0.05      # 点到拟合地面线的最大垂直距离，超过则不认为是地面点
+
+    sensor_height: 0.3          # 传感器距离地面的高度（米）
+    min_slope: 0.0              # 地面线的最小坡度
+    max_slope: 0.5              # 地面线的最大坡度
+    max_fit_error: 0.05         # 线性拟合点的最大允许误差
+    long_threshold: 1.0         # 点之间距离超过该值认为两点间隔较远（米）
+    max_long_height: 0.1        # 长距离线段中点间最大高度变化（米）
+    max_start_height: 0.2       # 新线段起点与估计地面高度最大差值（米）
+    line_search_angle: 0.1      # 角度方向搜索范围，用于寻找地面线（弧度）
+
+    gravity_aligned_frame: "base_link"   # 与重力方向Z轴对齐的坐标系名称，空字符串表示使用传感器坐标系
+
+    visualize: false            # 是否可视化分割结果，仅用于调试
+
+    input_topic: "/cloud_registered"           # 输入点云话题
+    obstacle_output_topic: "/segmentation/obstacle"   # 输出障碍物点云话题
+    ground_output_topic: "/segmentation/ground"       # 输出地面点云话题

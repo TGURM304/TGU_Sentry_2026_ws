@@ -1,0 +1,128 @@
+/**:
+    ros__parameters:
+        # 是否使用先验地图进行定位（true：使用，false：不使用）
+        locate_in_prior_map: false
+        
+        # 先验地图路径，只有 locate_in_prior_map 为 true 时有效
+        prior_map_path: "/home/tgu/Desktop/tgu_sentry_2026_ws/src/FAST_LIO/PCD/test.pcd"
+        
+        # 是否启用特征提取（如边缘、平面特征等）
+        feature_extract_enable: true
+        
+        # 点滤波参数，滤波数量，影响点云精度和计算量
+        point_filter_num: 3
+        
+        # 最大迭代次数，通常是匹配优化算法中的迭代限制
+        max_iteration: 3
+        
+        # 对点云的平面特征滤波尺寸（单位：米）
+        filter_size_surf: 0.5
+        
+        # 对地图点云滤波尺寸（单位：米）
+        filter_size_map: 0.5
+        
+        # 地图体素体积边长（单位：米），影响地图体素分辨率
+        cube_side_length: 1000.0
+        
+        # 是否开启运行时位置日志记录
+        runtime_pos_log_enable: false
+        
+        # 地图保存路径，运行时生成的地图会保存到这里
+        map_file_path: "./test.pcd"
+
+        common:
+            # 里程计坐标系的frame id，一般是odom
+            odom_frame_id: "odom"
+            
+            # 传感器坐标系的frame id，一般是IMU或者激光雷达的frame
+            sensor_frame_id: "imu_link"
+            
+            # 机器人基座坐标系frame id，一般是base_link
+            base_frame_id: "base_link"
+            
+            # 是否发布odom到base_link的tf变换
+            send_odom_base_tf: true
+            
+            # 激光雷达点云话题名称
+            lid_topic:  "/livox/lidar"
+            
+            # IMU数据话题名称
+            imu_topic:  "/imu/data"
+            
+            # 是否开启时间同步（强制开启只在无法外部同步时）
+            time_sync_en: true         
+            
+            # 激光雷达和IMU时间戳偏移，单位秒（标定得到的时间差）
+            time_offset_lidar_to_imu: 0.0 
+
+        preprocess:
+            # 激光雷达类型，1: Livox 系列，2: Velodyne，3: Ouster，4: 其它
+            lidar_type: 1
+                
+            # 扫描线数，Livox多线雷达特征参数
+            scan_line:  4
+            
+            # 盲区范围，滤除近距离无效点，单位米
+            blind: 0.5
+            
+            # 时间戳单位，3表示纳秒？具体根据驱动文档
+            timestamp_unit: 3
+            
+            # 雷达扫描频率，单位Hz
+            scan_rate: 10
+
+        mapping:
+            # 加速度噪声协方差，影响滤波器权重
+            acc_cov: 0.1
+            
+            # 陀螺仪噪声协方差
+            gyr_cov: 0.1
+            
+            # 加速度偏置噪声协方差
+            b_acc_cov: 0.0001
+            
+            # 陀螺仪偏置噪声协方差
+            b_gyr_cov: 0.0001
+            
+            # 雷达水平视场角度，单位度
+            fov_degree:    360.0
+            
+            # 最大检测距离，单位米
+            det_range:     100.0
+            
+            # 是否开启IMU与激光雷达外参的在线估计
+            extrinsic_est_en:  true      
+            
+            # IMU到雷达的平移偏移（标定值，单位米）
+            extrinsic_T: [ 0., 0., 0. ]
+            
+            # IMU到雷达的旋转矩阵，3x3，单位阵表示无旋转
+            extrinsic_R: [ 1., 0., 0.,
+                            0., -1., 0.,
+                            0., 0., -1.]
+
+        publish:
+            # 是否发布轨迹路径消息（nav_msgs/Path）
+            path_en: true
+                
+            # 是否发布地图效果点云（调试用）
+            effect_map_en: true
+            
+            # 是否发布完整地图点云
+            map_en: true
+                
+            # 是否发布实时扫描点云
+            scan_publish_en:  true  
+                
+            # 是否发布降采样后的稠密点云
+            dense_publish_en: true  
+                
+            # 是否发布IMU机体系的点云
+            scan_bodyframe_pub_en: true  
+
+        pcd_save:
+            # 是否保存点云文件
+            pcd_save_en: true
+            
+            # 每多少帧保存一个pcd文件，-1表示所有帧保存到一个文件，可能导致内存溢出
+            interval: -1                 
