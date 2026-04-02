@@ -16,7 +16,7 @@ def generate_launch_description():
         executable='sac_ia_gicp',
         name='sac_ia_gicp_node',
         parameters=[
-            {'target_pcd_file': "/home/tgu/Desktop/tgu_sentry_2026_ws/src/sentry_bringup/maps/test.pcd"},
+            {'target_pcd_file': "/home/tgu/Desktop/tgu_sentry_2026_ws/src/sentry_bringup/maps/rmul2026.pcd"},
             {'num_threads': 8},
             {'k_serach_source': 100},
             {'k_serach_target': 100},

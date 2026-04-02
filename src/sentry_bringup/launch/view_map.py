@@ -13,7 +13,7 @@ class ImagePublisherNode(Node):
 
     def timer_callback(self):
         # Read the image from a file
-        img = cv2.imread('/home/tgu/Desktop/tgu_sentry_2026_ws/src/sentry_bringup/maps/RMUL_img.png', cv2.IMREAD_COLOR)
+        img = cv2.imread('/home/tgu/Desktop/tgu_sentry_2026_ws/src/sentry_bringup/maps/rmul2026.png', cv2.IMREAD_COLOR)
 
         # convert to rgba
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)

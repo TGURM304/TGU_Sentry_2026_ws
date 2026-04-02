@@ -1,7 +1,7 @@
 /**:
     ros__parameters:
         locate_in_prior_map: true                  # 是否定位于已有的先验地图中
-        prior_map_path: "/home/tgu/Desktop/tgu_sentry_2026_ws/src/sentry_bringup/maps/test.pcd"  # 先验地图文件路径（PCD格式）
+        prior_map_path: "/home/tgu/Desktop/tgu_sentry_2026_ws/src/sentry_bringup/maps/rmul2026.pcd"  # 先验地图文件路径（PCD格式）
         feature_extract_enable: false              # 是否启用特征提取
         point_filter_num: 3                        # 点云滤波点数
         max_iteration: 3                           # 最大迭代次数

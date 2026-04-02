@@ -2,12 +2,12 @@ ground_segmentation:
   ros__parameters:
     n_threads: 32                # 使用的线程数
 
-    r_min: 0.2                  # 点云距离的最小范围（米）
+    r_min: 0.3                  # 点云距离的最小范围（米）
     r_max: 50.0                 # 点云距离的最大范围（米）
     n_bins: 120                 # 径向距离划分的区间数量
     n_segments: 360             # 径向角度划分的段数
 
-    max_dist_to_line: 0.05      # 点到拟合地面线的最大垂直距离，超过则不认为是地面点
+    max_dist_to_line: 0.08      # 点到拟合地面线的最大垂直距离，超过则不认为是地面点
 
     sensor_height: 0.3          # 传感器距离地面的高度（米）
     min_slope: 0.0              # 地面线的最小坡度

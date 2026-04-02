@@ -10,28 +10,34 @@
 
 namespace rm_serial_driver
 {
-struct ReceivePacket
-{
-  uint8_t header = 0x5A;
-  uint8_t detect_color : 1;  // 0-red 1-blue
-  bool reset_tracker : 1;
-  uint8_t reserved : 6;
-  float roll;
-  float pitch;
-  float yaw;
-  float aim_x;
-  float aim_y;
-  float aim_z;
-  uint16_t checksum = 0;
-} __attribute__((packed));
+    struct ReceivePacket {
+        uint8_t head[2] = {'T', 'G'};
+        uint8_t mode;           // 0: 不控制, 1: 控制云台但不开火，2: 控制云台且开火
+        float yaw;              // 目标偏航角(弧度制)
+        float yaw_vel;          // 目标偏航角速度
+        float yaw_acc;          // 目标偏航角加速度
+        float pitch;            // 目标俯仰角(弧度制)
+        float pitch_vel;        // 目标俯仰角速度
+        float pitch_acc;        // 目标俯仰角加速度
+        float vx;
+        float vy;
+        uint16_t crc16;
+    } __attribute__((packed));
+    static_assert(sizeof(ReceivePacket) <= 64);
 
 struct SendPacket
 {
-  uint8_t header = 0xA5;
-  float vx;                   // 目标在世界坐标系下 x 方向的速度
-  float vy;                   // 目标在世界坐标系下 y 方向的速度
-  float vz;                   // 目标在世界坐标系下 z 方向的速度
-  uint16_t checksum = 0;
+  uint8_t head[2] = {'T', 'G'};
+  uint8_t mode = 0;           // 0: 不控制, 1: 控制云台但不开火，2: 控制云台且开火
+  float yaw = 0;              // 目标偏航角(弧度制)
+  float yaw_vel = 0;          // 目标偏航角速度
+  float yaw_acc = 0;          // 目标偏航角加速度
+  float pitch = 0;            // 目标俯仰角(弧度制)
+  float pitch_vel = 0;        // 目标俯仰角速度
+  float pitch_acc = 0;        // 目标俯仰角加速度
+  float vx = 0;
+  float vy = 0;
+  uint16_t crc16 = 0;
 } __attribute__((packed));
 
 inline ReceivePacket fromVector(const std::vector<uint8_t> & data)
